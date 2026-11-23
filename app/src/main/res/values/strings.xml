@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">广职大课表</string>
+    <string name="widget_today_label">广职大课表 · 今日课程</string>
+    <string name="widget_upcoming_label">广职大课表 · 近期课程</string>
+    <string name="widget_today_desc">显示今天要上的课，每节课一张卡片</string>
+    <string name="widget_upcoming_desc">从今天起按天列出课程，尺寸越大显示越多天</string>
+</resources>

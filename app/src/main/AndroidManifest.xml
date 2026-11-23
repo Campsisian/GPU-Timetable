@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!--
+      上课提醒必须准点。Android 14 起 SCHEDULE_EXACT_ALARM 对新装应用默认是「拒绝」的，
+      那样闹钟会退化成不精确的，省电模式下可能拖十几分钟才响。
+      USE_EXACT_ALARM 是安装即授予、用户无法撤销的那个，日历/提醒类应用正是它的适用场景，
+      所以两个都声明：新系统靠 USE_EXACT_ALARM 直接拿到，老系统靠 SCHEDULE_EXACT_ALARM。
+    -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <!-- 让用户在电池优化里把本应用设为「不限制」，否则国产 ROM 会把后台闹钟压掉 -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="false"
+        android:theme="@style/Theme.GzpypTimetable">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.GzpypTimetable">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".notify.ReminderReceiver"
+            android:exported="false" />
+
+        <!-- 部件到点自动重刷（上下课、跨天） -->
+        <receiver
+            android:name=".widget.WidgetTickReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.gzpyp.timetable.action.WIDGET_TICK" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".sync.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 桌面小组件的滚动列表数据源（由 Launcher 绑定） -->
+        <service
+            android:name=".widget.WidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <!-- 桌面小组件：今日课程 -->
+        <receiver
+            android:name=".widget.TodayWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_today_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_today_info" />
+        </receiver>
+
+        <!-- 桌面小组件：近期课程 -->
+        <receiver
+            android:name=".widget.WeekWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_upcoming_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_upcoming_info" />
+        </receiver>
+
+    </application>
+</manifest>

@@ -1,0 +1,29 @@
+# ---- 构建产物 ----
+.gradle/
+build/
+app/build/
+.kotlin/
+captures/
+*.log
+
+# ---- 本机配置（每台机器不同，不能提交）----
+local.properties
+
+# ---- 签名文件：泄露等于别人可以冒名发布你的应用 ----
+keystore.properties
+keystore/
+*.jks
+*.keystore
+
+# ---- 安装包与打包产物 ----
+*.apk
+*.aab
+旧版本/
+dist/
+*-src.zip
+
+# ---- IDE / 系统 ----
+.idea/
+*.iml
+.DS_Store
+Thumbs.db

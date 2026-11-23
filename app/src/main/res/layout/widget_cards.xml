@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  桌面小组件：课程卡片列表
+  全部用真实 View 渲染，文字是系统字体，任何分辨率下都不糊。
+  背景用两层：底层 View 只负责圆角+透明度，上层放文字，这样调透明度不会把字也调淡。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 背景层必须是 RemoteViews 白名单内的控件，不能用 <View>（会 InflateException） -->
+    <FrameLayout
+        android:id="@+id/wd_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/wg_root_r1_dark" />
+
+    <LinearLayout
+        android:id="@+id/wd_body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="11dp"
+        android:paddingEnd="11dp"
+        android:paddingTop="9dp"
+        android:paddingBottom="6dp">
+
+        <LinearLayout
+            android:id="@+id/wd_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:id="@+id/wd_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:text="今天"
+                android:textColor="#9EA3AA"
+                android:textSize="11.5sp" />
+
+            <TextView
+                android:id="@+id/wd_meta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:textColor="#9EA3AA"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wd_cards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/wd_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="#9EA3AA"
+        android:textSize="11sp"
+        android:visibility="gone" />
+
+</FrameLayout>

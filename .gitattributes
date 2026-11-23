@@ -1,0 +1,19 @@
+# 统一换行符，避免 Windows 提交后 Linux/macOS 上 gradlew 因为 CRLF 跑不起来
+* text=auto eol=lf
+
+# shell 脚本必须 LF
+gradlew text eol=lf
+
+# Windows 批处理必须 CRLF
+*.bat text eol=crlf
+gradlew.bat text eol=crlf
+
+# 二进制文件，git 不要做任何换行转换
+*.jar binary
+*.onnx binary
+*.png binary
+*.jpg binary
+*.webp binary
+*.apk binary
+*.jks binary
+*.keystore binary
